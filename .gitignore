@@ -1,0 +1,18 @@
+# Gowin EDA & ModelSim temporary files
+impl/
+work/
+*.bin
+*.fs
+*.rpt
+*.htm
+*.wlf
+*.ini
+
+# Python temporary files
+__pycache__/
+*.pyc
+.venv/
+
+# OS files
+.DS_Store
+Thumbs.db
