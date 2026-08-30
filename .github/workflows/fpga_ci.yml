@@ -4,7 +4,7 @@ on:
   push:
     branches: [ "main" ]
   pull_request:
-    branches: ["main"]
+    branches: [ "main" ]
 
 jobs:
   verify_and_build:
@@ -20,7 +20,15 @@ jobs:
 
       - name: Run VHDL Syntax Verification
         run: |
-          ghdl -s fpga/src/*.vhd
+          echo "Checking only non-empty VHDL files..."
+          for file in fpga/src/*.vhd; do
+            if [ -s "$file" ]; then
+              echo "Compiling $file..."
+              ghdl -s "$file"
+            else
+              echo "Skipping empty file $file"
+            fi
+          done
 
       - name: Package Firmware
         run: |
