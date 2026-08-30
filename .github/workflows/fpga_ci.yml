@@ -20,7 +20,7 @@ jobs:
 
       - name: Run VHDL Syntax Verification
         run: |
-          ghdl -s fpga/src/*.vhdl
+          ghdl -s fpga/src/*.vhd
 
       - name: Package Firmware
         run: |
@@ -31,4 +31,4 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: fpga-bitstream-pack
-          path: buiild_output/fpga_firmware_release.zip
+          path: build_output/fpga_firmware_release.zip
