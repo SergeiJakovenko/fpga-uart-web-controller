@@ -1,0 +1,34 @@
+name: FPGA Build & Release Pipeline
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: ["main"]
+
+jobs:
+  verify_and_build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v3
+
+      - name: Install GHDL
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y ghdl zip
+
+      - name: Run VHDL Syntax Verification
+        run: |
+          ghdl -s fpga/src/*.vhdl
+
+      - name: Package Firmware
+        run: |
+          mkdir -p build_output
+          zip -r build_output/fpga_firmware_release.zip fpga/src/
+
+      - name: Upload Artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: fpga-bitstream-pack
+          path: buiild_output/fpga_firmware_release.zip

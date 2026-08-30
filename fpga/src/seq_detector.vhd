@@ -17,7 +17,7 @@ end entity seq_detector;
 
 architecture Behavioral of seq_detector is
 
-	type t_state is (S_IDLE, S_1, S_10, S_1010, S_1011);
+	type t_state is (S_IDLE, S_BIT1, S_BIT10, S_BIT101, S_BIT1010, S_BIT1011);
 	
 	signal state_reg, state_next : t_state := S_IDLE;
 	
@@ -39,44 +39,44 @@ begin
 		case state_reg is
 			when S_IDLE => 
 				if data_in = '1' then
-					state_next <= S_1;
+					state_next <= S_BIT1;
 				else
 					state_next <= S_IDLE;
 				end if;
 				
-			when S_1 =>
+			when S_BIT1 =>
 				if data_in = '0' then
-					state_next <= S_10;
+					state_next <= S_BIT10;
 				else
-					state_next <= S_1;
+					state_next <= S_BIT1;
 				end if;
 					
-			when S_10 =>
+			when S_BIT10 =>
 				if data_in = '1' then
-					state_next <= S_101;
+					state_next <= S_BIT101;
 				else
 					state_next <= S_IDLE;
 				end if;
 				
-			when S_101 =>
+			when S_BIT101 =>
 				if 		data_in = '0' then
-					state_next <= S_1010;
+					state_next <= S_BIT1010;
 				elsif 	data_in = '1' then
-					state_next <= S_1011;
+					state_next <= S_BIT1011;
 				end if;
 
-			when S_1010 =>
+			when S_BIT1010 =>
 				if 	data_in = '1' then
-					state_next <= S_101;
+					state_next <= S_BIT101;
 				else
 					state_next <= S_IDLE;
 				end if;
 			
-			when S_1011 =>
+			when S_BIT1011 =>
 				if data_in = '1' then
-					state_next <= S_1;
+					state_next <= S_BIT1;
 				else
-					state_next <= S_10;
+					state_next <= S_BIT10;
 				end if;
 			
 			when others =>
@@ -84,8 +84,8 @@ begin
 		end case;
 	end process;
 	
-	seq_101  <= '1' when (state_reg = S_101)  else '0';
-	seq_1010 <= '1' when (state_reg = S_1010) else '0';
-	seq_1011 <= '1' when (state_reg = S_1011) else '0';
+	seq_101  <= '1' when (state_reg = S_BIT101)  else '0';
+	seq_1010 <= '1' when (state_reg = S_BIT1010) else '0';
+	seq_1011 <= '1' when (state_reg = S_BIT1011) else '0';
 
 end architecture Behavioral;	
